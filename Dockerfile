@@ -1,8 +1,8 @@
 # ---------- Stage 1: clona o repositório ----------
 FROM alpine:3.20 AS source
 
-ARG REPO_URL=https://github.com/queziajesuinod/cassiamarylp.git
-ARG REPO_REF=main
+ARG REPO_URL=https://github.com/queziajesuinod/conferenciarelevante
+ARG REPO_REF=master
 
 WORKDIR /tmp
 
