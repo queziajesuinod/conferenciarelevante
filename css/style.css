@@ -79,8 +79,8 @@
 
   /* Tiers de ingresso (do mapa) */
   --tier-frente: #2fe36b;
-  --tier-inter: #ff9d1e;
-  --tier-galeria: #2f7bff;
+  --tier-inter: #2f7bff;
+  --tier-galeria: #ffd21e;
 
   --white: #f2f6ff;
   --muted: #9fb4e8;
@@ -734,6 +734,11 @@ section[id] { scroll-margin-top: 92px; }
   padding-top: 3px;
   letter-spacing: 0.05em;
 }
+/* Programação: conteúdo centralizado */
+#programacao .day-card { text-align: center; }
+#programacao .day-card ul { max-width: 240px; margin: 0 auto; }
+#programacao .day-card ul li { justify-content: center; gap: 14px; align-items: center; }
+#programacao .day-card ul li time { min-width: 0; padding-top: 0; }
 
 /* -------------------- INGRESSOS -------------------- */
 .tickets-layout {
