@@ -1434,3 +1434,32 @@ section[id] { scroll-margin-top: 92px; }
   }
   .reveal { opacity: 1; transform: none; }
 }
+
+/* -------------------- CONSENTIMENTO (cookies / LGPD) -------------------- */
+.consent {
+  position: fixed;
+  left: 16px; right: 16px; bottom: 16px;
+  z-index: 1000;
+  max-width: 720px;
+  margin: 0 auto;
+  border: 1px solid rgba(120,170,255,0.25);
+  border-radius: var(--radius);
+  background: rgba(3, 11, 38, 0.92);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  animation: consent-in .4s var(--ease-out) both;
+}
+.consent[hidden] { display: none; }
+.consent-inner {
+  display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
+  padding: 18px 22px;
+}
+.consent-inner p { color: var(--muted); font-size: 0.92rem; flex: 1 1 300px; margin: 0; }
+.consent-inner p b { color: var(--lime); }
+.consent-actions { display: flex; gap: 10px; flex-shrink: 0; }
+.consent-actions .btn { min-height: 42px; padding: 11px 22px; font-size: 0.76rem; }
+@keyframes consent-in { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+@media (max-width: 560px) {
+  .consent-actions { width: 100%; }
+  .consent-actions .btn { flex: 1; }
+}

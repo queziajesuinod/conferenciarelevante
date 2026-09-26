@@ -179,4 +179,28 @@
       });
     });
   });
+
+  /* ---- Banner de consentimento (cookies / LGPD) ---- */
+  const consent = document.getElementById('consent');
+  if (consent) {
+    let stored = null;
+    try { stored = localStorage.getItem('jr_consent'); } catch (e) {}
+    if (stored !== 'granted' && stored !== 'denied') consent.hidden = false;
+
+    consent.querySelectorAll('[data-consent]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const v = btn.getAttribute('data-consent'); // 'granted' | 'denied'
+        if (typeof window.gtag === 'function') {
+          window.gtag('consent', 'update', {
+            ad_storage: v,
+            ad_user_data: v,
+            ad_personalization: v,
+            analytics_storage: v,
+          });
+        }
+        try { localStorage.setItem('jr_consent', v); } catch (e) {}
+        consent.hidden = true;
+      });
+    });
+  }
 })();

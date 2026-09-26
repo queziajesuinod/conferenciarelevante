@@ -3,11 +3,14 @@ FROM alpine:3.20 AS source
 
 ARG REPO_URL=https://github.com/queziajesuinod/conferenciarelevante
 ARG REPO_REF=master
+# Passe --build-arg CACHEBUST=$(date +%s) para forçar novo clone (sem cache)
+ARG CACHEBUST=0
 
 WORKDIR /tmp
 
 RUN apk add --no-cache git
-RUN git clone --depth 1 --branch "${REPO_REF}" "${REPO_URL}" project
+RUN echo "cachebust=${CACHEBUST}" && \
+    git clone --depth 1 --branch "${REPO_REF}" "${REPO_URL}" project
 
 # ---------- Stage 2: serve com nginx ----------
 FROM nginx:1.27-alpine

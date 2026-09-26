@@ -5,16 +5,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#030b26" />
 
-    <!-- Google Analytics (GA4) -->
-    <script
-      async
-      src="https://www.googletagmanager.com/gtag/js?id=G-L4WH45SJP2"
-    ></script>
+    <!-- Google Analytics (GA4) + Consent Mode v2 (avançado, LGPD) -->
     <script>
       window.dataLayer = window.dataLayer || []
       function gtag() {
         dataLayer.push(arguments)
       }
+      // 1) Padrão: negado até o usuário decidir
+      gtag('consent', 'default', {
+        ad_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied',
+        analytics_storage: 'denied',
+        functionality_storage: 'granted',
+        security_storage: 'granted',
+        wait_for_update: 500,
+      })
+      // 2) Reaplica escolha já salva (antes do config)
+      try {
+        var __c = localStorage.getItem('jr_consent')
+        if (__c === 'granted' || __c === 'denied') {
+          gtag('consent', 'update', {
+            ad_storage: __c,
+            ad_user_data: __c,
+            ad_personalization: __c,
+            analytics_storage: __c,
+          })
+        }
+      } catch (e) {}
+    </script>
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-L4WH45SJP2"
+    ></script>
+    <script>
       gtag('js', new Date())
       gtag('config', 'G-L4WH45SJP2')
     </script>
@@ -1033,6 +1057,20 @@
         </div>
       </div>
     </footer>
+
+    <!-- ============ CONSENTIMENTO (cookies / LGPD) ============ -->
+    <div class="consent" id="consent" role="dialog" aria-label="Aviso de cookies" hidden>
+      <div class="consent-inner">
+        <p>
+          Usamos cookies para analisar o tráfego e melhorar sua experiência. Ao
+          clicar em <b>Aceitar</b>, você concorda com o uso de cookies de análise.
+        </p>
+        <div class="consent-actions">
+          <button type="button" class="btn btn-ghost" data-consent="denied">Rejeitar</button>
+          <button type="button" class="btn btn-primary" data-consent="granted">Aceitar</button>
+        </div>
+      </div>
+    </div>
 
     <script src="js/main.js"></script>
   </body>
