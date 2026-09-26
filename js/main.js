@@ -161,4 +161,22 @@
       el.addEventListener('input', () => el.closest('.wa-field').classList.remove('error'));
     });
   }
+
+  /* ---- Google Analytics: evento ao clicar em "Garantir / Comprar" ---- */
+  document.querySelectorAll('a').forEach((a) => {
+    const txt = (a.textContent || '').toLowerCase();
+    const href = a.getAttribute('href') || '';
+    const isCheckout = href.indexOf('app.iecg.com.br') !== -1;
+    const isCTA = /garantir|comprar/.test(txt);
+    if (!isCheckout && !isCTA) return;
+    a.addEventListener('click', () => {
+      if (typeof window.gtag !== 'function') return;
+      window.gtag('event', 'garantir_ingresso', {
+        event_category: 'cta',
+        event_label: (a.textContent || '').trim().replace(/\s+/g, ' ').slice(0, 80),
+        tipo: isCheckout ? 'checkout' : 'ver_ingressos',
+        link_url: a.href,
+      });
+    });
+  });
 })();
