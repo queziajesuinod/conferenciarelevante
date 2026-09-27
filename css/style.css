@@ -1463,3 +1463,72 @@ section[id] { scroll-margin-top: 92px; }
   .consent-actions { width: 100%; }
   .consent-actions .btn { flex: 1; }
 }
+
+/* ============ MEUS INGRESSOS ============ */
+.ingressos-box {
+  max-width: 760px;
+  margin: 34px auto 0;
+  border: 1px solid rgba(120,170,255,0.22);
+  border-radius: var(--radius-lg);
+  padding: 32px 28px;
+  background: linear-gradient(160deg, rgba(37,110,255,0.16), rgba(3,11,38,0.55));
+  box-shadow: var(--glow-blue);
+}
+.ingressos-form { display: flex; gap: 14px; align-items: flex-end; flex-wrap: wrap; }
+.ingressos-form .btn { min-height: 52px; white-space: nowrap; }
+.ingressos-status {
+  margin-top: 18px;
+  font-family: var(--font-body);
+  color: var(--muted);
+  font-size: 0.98rem;
+}
+.ingressos-status.is-erro { color: #ff8aa0; }
+.ingressos-status.is-vazio { color: var(--muted-dim); }
+.ingressos-status.is-loading { color: var(--lime); }
+
+.ingressos-resultados { display: flex; flex-direction: column; gap: 20px; margin-top: 22px; }
+.ingresso-card {
+  border: 1px solid rgba(120,170,255,0.2);
+  border-radius: var(--radius);
+  padding: 22px 20px;
+  background: rgba(3,11,38,0.5);
+}
+.ingresso-card__head {
+  display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;
+  margin-bottom: 18px;
+}
+.ingresso-evento {
+  font-family: var(--font-body); font-weight: 800; font-size: 1.15rem; color: var(--white);
+}
+.ingresso-codigo { color: var(--muted); font-size: 0.86rem; margin-top: 2px; }
+.ingresso-badge {
+  font-family: var(--font-display);
+  font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase;
+  padding: 6px 10px; border-radius: 999px; white-space: nowrap;
+}
+.ingresso-badge.is-ok { background: rgba(47,227,107,0.16); color: var(--tier-frente); }
+.ingresso-badge.is-wait { background: rgba(255,210,30,0.16); color: var(--tier-galeria); }
+
+.ingresso-inscritos {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 16px;
+}
+.ingresso-inscrito {
+  display: flex; flex-direction: column; align-items: center; text-align: center;
+  background: #fff; border-radius: 14px; padding: 12px;
+}
+.ingresso-qr { width: 130px; height: 130px; object-fit: contain; }
+.ingresso-qr--off {
+  width: 130px; height: 130px; display: flex; align-items: center; justify-content: center;
+  font-size: 0.72rem; color: #6b81b8; padding: 8px; text-align: center; background: #eef2fb; border-radius: 8px;
+}
+.ingresso-nome { margin-top: 8px; font-weight: 700; font-size: 0.92rem; color: #0b1636; }
+.ingresso-setor {
+  font-family: var(--font-display); font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase;
+  color: #4a5c86; margin-top: 2px;
+}
+.ingresso-baixar { width: 100%; margin-top: 20px; }
+
+@media (max-width: 560px) {
+  .ingressos-form { flex-direction: column; align-items: stretch; }
+  .ingressos-form .btn { width: 100%; }
+}

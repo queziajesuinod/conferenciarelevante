@@ -821,6 +821,42 @@
       </div>
     </section>
 
+    <!-- ============ MEUS INGRESSOS ============ -->
+    <section class="section-pad" id="meus-ingressos">
+      <div class="container">
+        <div class="section-head center reveal">
+          <span class="eyebrow" style="justify-content: center">Já se inscreveu?</span>
+          <h2>Meus ingressos</h2>
+          <p class="section-sub">
+            Digite o código do pedido (ex.: REG-XXXXXXXX-XXXXXX) ou o e-mail do comprador
+            para ver os QR Codes e baixar os ingressos.
+          </p>
+        </div>
+
+        <div class="ingressos-box reveal">
+          <form id="ingressosForm" class="ingressos-form" novalidate>
+            <div class="wa-field" style="flex: 1">
+              <label for="ing-busca">Código do pedido ou e-mail</label>
+              <input
+                type="text"
+                id="ing-busca"
+                name="busca"
+                placeholder="REG-20260906-XXXXXX  ou  seuemail@exemplo.com"
+                autocomplete="off"
+                required
+              />
+            </div>
+            <button type="submit" class="btn btn-primary" id="ing-btn">
+              Buscar ingressos
+            </button>
+          </form>
+
+          <div id="ing-status" class="ingressos-status" hidden></div>
+          <div id="ing-resultados" class="ingressos-resultados"></div>
+        </div>
+      </div>
+    </section>
+
     <!-- ============ FAQ ============ -->
     <section class="section-pad" id="faq">
       <div class="container">
@@ -1073,5 +1109,7 @@
     </div>
 
     <script src="js/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js"></script>
+    <script src="js/ingressos.js"></script>
   </body>
 </html>
