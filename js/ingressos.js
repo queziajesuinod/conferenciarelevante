@@ -51,36 +51,48 @@
   }
 
   // Gera o QR (mesmo conteúdo lido no check-in) e coloca no <img> alvo.
-  function gerarQr(imgEl, orderCode, eventId, attendeeId) {
-    var payload = JSON.stringify({ orderCode: orderCode, event_id: eventId, attendeeId: attendeeId });
-    if (!window.QRCode || !window.QRCode.toDataURL) {
-      imgEl.replaceWith(document.createTextNode(''));
-      return;
-    }
-    window.QRCode.toDataURL(payload, { width: 240, margin: 2 })
-      .then(function (url) { imgEl.src = url; })
-      .catch(function () { imgEl.alt = 'Não foi possível gerar o QR'; });
+  // Anti-fraude: em vez de abrir o ingresso direto, envia para o e-mail cadastrado.
+  function enviarPorEmail(orderCode, btnEl, msgEl) {
+    btnEl.disabled = true;
+    var original = btnEl.textContent;
+    btnEl.textContent = 'Enviando...';
+    msgEl.textContent = '';
+    msgEl.className = 'ingresso-email-msg';
+    fetch(API_BASE + '/api/public/events/registrations/' + encodeURIComponent(orderCode) + '/send-ticket-email', {
+      method: 'POST',
+    })
+      .then(function (r) {
+        return r.json().then(function (d) {
+          if (!r.ok) throw new Error(d && d.message ? d.message : 'Falha ao enviar');
+          return d;
+        });
+      })
+      .then(function (d) {
+        msgEl.textContent = 'Enviado para ' + (d.email || 'seu e-mail') + '. Confira a caixa de entrada e o spam.';
+        msgEl.className = 'ingresso-email-msg is-ok';
+        btnEl.textContent = 'E-mail enviado ✓';
+      })
+      .catch(function (err) {
+        msgEl.textContent = err.message || 'Não foi possível enviar. Tente de novo.';
+        msgEl.className = 'ingresso-email-msg is-erro';
+        btnEl.disabled = false;
+        btnEl.textContent = original;
+      });
   }
 
   function render(resultados) {
     resultsEl.innerHTML = '';
     resultados.forEach(function (reg) {
-      var confirmado = reg.paymentStatus === 'confirmed' || reg.paymentStatus === 'partial';
       var card = document.createElement('article');
       card.className = 'ingresso-card';
-
-      var ticketUrl = TICKET_BASE + '/ticket/' + encodeURIComponent(reg.orderCode);
 
       var attendeesHtml = (reg.attendees || []).map(function (att) {
         var setor = att.batch && att.batch.sector ? att.batch.sector : (att.batch ? att.batch.name : '');
         return (
-          '<div class="ingresso-inscrito">' +
-            (confirmado
-              ? '<img class="ingresso-qr" data-att="' + esc(att.id) + '" alt="QR Code de ' + esc(att.name) + '" />'
-              : '<div class="ingresso-qr ingresso-qr--off">Disponível após a confirmação do pagamento</div>') +
-            '<p class="ingresso-nome">' + esc(att.name) + '</p>' +
-            (setor ? '<p class="ingresso-setor">' + esc(setor) + '</p>' : '') +
-          '</div>'
+          '<li class="ingresso-inscrito-item">' +
+            '<span class="ingresso-nome">' + esc(att.name) + '</span>' +
+            (setor ? '<span class="ingresso-setor">' + esc(setor) + '</span>' : '') +
+          '</li>'
         );
       }).join('');
 
@@ -91,21 +103,22 @@
             '<p class="ingresso-codigo">Pedido ' + esc(reg.orderCode) +
               (reg.buyerName ? ' · ' + esc(reg.buyerName) : '') + '</p>' +
           '</div>' +
-          '<span class="ingresso-badge ' + (confirmado ? 'is-ok' : 'is-wait') + '">' +
+          '<span class="ingresso-badge ' +
+            (reg.paymentStatus === 'confirmed' || reg.paymentStatus === 'partial' ? 'is-ok' : 'is-wait') + '">' +
             esc(statusLabel(reg.paymentStatus)) + '</span>' +
         '</div>' +
-        '<div class="ingresso-inscritos">' + attendeesHtml + '</div>' +
-        '<a class="btn btn-primary ingresso-baixar" href="' + esc(ticketUrl) + '" target="_blank" rel="noopener">' +
-          (confirmado ? 'Abrir ingresso e baixar PDF' : 'Ver detalhes / pagar') +
-        '</a>';
+        '<ul class="ingresso-inscritos-lista">' + attendeesHtml + '</ul>' +
+        '<button type="button" class="btn btn-primary ingresso-enviar">Receber ingresso por e-mail</button>' +
+        '<p class="ingresso-email-msg"></p>' +
+        '<p class="ingresso-aviso">Por segurança, o ingresso (link e QR Code) é enviado apenas para o e-mail cadastrado na compra.</p>';
+
+      var btnEl = card.querySelector('.ingresso-enviar');
+      var msgEl = card.querySelector('.ingresso-email-msg');
+      btnEl.addEventListener('click', function () {
+        enviarPorEmail(reg.orderCode, btnEl, msgEl);
+      });
 
       resultsEl.appendChild(card);
-
-      if (confirmado && reg.event) {
-        card.querySelectorAll('.ingresso-qr[data-att]').forEach(function (img) {
-          gerarQr(img, reg.orderCode, reg.event.id, img.getAttribute('data-att'));
-        });
-      }
     });
   }
 
