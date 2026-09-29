@@ -1,0 +1,924 @@
+{
+  "name": "Relevante 2026 · E-mail marketing (lista 2025)",
+  "nodes": [
+    {
+      "name": "Como usar",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1500,
+        -600
+      ],
+      "parameters": {
+        "width": 520,
+        "height": 420,
+        "color": 5,
+        "content": "## Relevante 2026 · E-mail marketing\n**Planilha:** https://docs.google.com/spreadsheets/d/17KhNyvIzSCu29fEUDN3NtZorLouQyAlEjBGqpYHGGQQ/edit\n\n**1.** Crie a credencial **SMTP** (host smtp.gmail.com, porta 465, SSL, usuário = e-mail de envio, senha = senha de app do Gmail) e selecione no nó **SMTP · enviar**. Os nós Google Sheets usam a credencial ColasConnect.\n\n**2.** Na planilha, renomeie a primeira aba para **contatos** (opcional, o fluxo usa gid=0) e rode uma vez o **Setup (rodar 1x)** para criar as abas `enviados`, `cliques` e `resumo`.\n\n**3.** Ative o workflow (para o webhook de cliques ficar no ar) e clique em **Disparo manual**. O fluxo envia no máximo `limiteDiario` e-mails por execução (padrão 400, limite do Gmail comum ~500/dia), pulando quem já está em `enviados`. Rode de novo no dia seguinte (ou deixe o gatilho **Todo dia 09h** ativo) até zerar.\n\n**4.** Ajuste assunto, remetente e limite no nó **Config**.\n\nLink rastreado no e-mail: `https://n8n.aleftec.com.br/webhook/relevante-click?c=<id>&d=site`"
+      },
+      "id": "b3031e0e-9af5-46ad-add9-778cf0736cf5"
+    },
+    {
+      "name": "Disparo manual",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1400,
+        -80
+      ],
+      "parameters": {},
+      "id": "9712856b-81eb-44b4-bc6b-8119079370be"
+    },
+    {
+      "name": "Todo dia 09h",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -1400,
+        120
+      ],
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 9 * * *"
+            }
+          ]
+        }
+      },
+      "id": "f913c4a8-8f81-45b9-9452-4bda77ddf11c"
+    },
+    {
+      "name": "Config",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1160,
+        20
+      ],
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "4ff6489d-6e87-41f9-90c8-486f4fd05add",
+              "name": "assunto",
+              "type": "string",
+              "value": "{{PRIMEIRO_NOME}}, a Relevante 2026 está chegando: lote 01 só até 01/10"
+            },
+            {
+              "id": "d8d3d766-462b-4c31-b719-8e5cd05362c8",
+              "name": "remetenteNome",
+              "type": "string",
+              "value": "Conferência Relevante"
+            },
+            {
+              "id": "8d62fc59-8317-4f47-961d-c747e5dcad92",
+              "name": "remetenteEmail",
+              "type": "string",
+              "value": "COLOQUE_O_EMAIL_DE_ENVIO@gmail.com"
+            },
+            {
+              "id": "7b8c7744-ccfb-4f59-aa5c-b13bcb101af6",
+              "name": "limiteDiario",
+              "type": "number",
+              "value": 400
+            },
+            {
+              "id": "ab0a24c2-d38f-4e1b-b1be-c16d14e8c6c8",
+              "name": "intervaloSegundos",
+              "type": "number",
+              "value": 4
+            },
+            {
+              "id": "f9257d51-8dda-40ba-a016-6687691a426d",
+              "name": "webhookBase",
+              "type": "string",
+              "value": "https://n8n.aleftec.com.br/webhook/relevante-click"
+            },
+            {
+              "id": "559e31ea-0e85-4942-b5b3-9965a05733d0",
+              "name": "site",
+              "type": "string",
+              "value": "https://juventuderelevante.com.br/"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "b61d9c39-f302-47a0-bc3e-1afce39040b6"
+    },
+    {
+      "name": "Contatos",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        -920,
+        20
+      ],
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "17KhNyvIzSCu29fEUDN3NtZorLouQyAlEjBGqpYHGGQQ"
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "name",
+          "value": "contatos"
+        },
+        "options": {}
+      },
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "",
+          "name": "ColasConnect"
+        }
+      },
+      "id": "1c8f59d1-bcf4-4054-8345-6ce4cf46fbd5"
+    },
+    {
+      "name": "Já enviados",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        -700,
+        20
+      ],
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "17KhNyvIzSCu29fEUDN3NtZorLouQyAlEjBGqpYHGGQQ"
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "name",
+          "value": "enviados"
+        },
+        "options": {}
+      },
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "",
+          "name": "ColasConnect"
+        }
+      },
+      "alwaysOutputData": true,
+      "onError": "continueRegularOutput",
+      "id": "af00c9ed-92f1-4ac4-b3ba-92c9f303da64"
+    },
+    {
+      "name": "Filtrar pendentes + limite diário",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -480,
+        20
+      ],
+      "parameters": {
+        "jsCode": "const cfg = $('Config').first().json;\nconst contatos = $('Contatos').all().map(i => i.json).filter(c => c.email && String(c.email).includes('@'));\nconst enviados = new Set($('Já enviados').all().map(i => String(i.json.email || '').trim().toLowerCase()).filter(Boolean));\n\nconst pendentes = contatos.filter(c => !enviados.has(String(c.email).trim().toLowerCase()));\nconst lote = pendentes.slice(0, Number(cfg.limiteDiario) || 400);\n\nfunction primeiroNome(nome) {\n  const n = String(nome || '').trim().split(/\\s+/)[0] || '';\n  if (!n) return 'jovem';\n  const low = n.toLowerCase();\n  if (['pr.', 'pra.', 'pr', 'pra', 'pastor', 'pastora'].includes(low)) {\n    const s = String(nome).trim().split(/\\s+/)[1] || n;\n    return s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();\n  }\n  return n.charAt(0).toUpperCase() + n.slice(1).toLowerCase();\n}\n\nreturn lote.map(c => {\n  const id = String(c.id || '').trim();\n  const pn = primeiroNome(c.nome);\n  const linkSite = `${cfg.webhookBase}?c=${encodeURIComponent(id)}&d=site`;\n  const linkValores = `${cfg.webhookBase}?c=${encodeURIComponent(id)}&d=valores`;\n  return { json: {\n    id, nome: c.nome, email: String(c.email).trim(), primeiro_nome: pn,\n    assunto: String(cfg.assunto).replace(/{{PRIMEIRO_NOME}}/g, pn),\n    link_site: linkSite, link_valores: linkValores,\n    total_pendentes: pendentes.length, enviando_agora: lote.length,\n  }};\n});"
+      },
+      "id": "8066632a-b830-4e7c-880b-29ab34a0dfdc"
+    },
+    {
+      "name": "Loop Over Items",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -240,
+        20
+      ],
+      "parameters": {
+        "options": {}
+      },
+      "id": "7d2086dc-b384-4a26-ad51-c006a19e3f2c"
+    },
+    {
+      "name": "Montar e-mail (HTML)",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        20,
+        40
+      ],
+      "parameters": {
+        "jsCode": "const tpl = \"<!DOCTYPE html>\\n<html lang=\\\"pt-BR\\\">\\n<head>\\n<meta charset=\\\"UTF-8\\\">\\n<meta name=\\\"viewport\\\" content=\\\"width=device-width, initial-scale=1.0\\\">\\n<title>Conferência Relevante 2026 · ALEGRIA</title>\\n<style>\\n  body{margin:0;padding:0;background:#0C1C32;-webkit-text-size-adjust:100%;}\\n  table{border-collapse:collapse;}\\n  img{border:0;display:block;}\\n  a{color:#d4ff1a;}\\n  .btn:hover{background:#e6ff4d !important;}\\n  @media only screen and (max-width:620px){\\n    .wrap{width:100% !important;}\\n    .px{padding-left:20px !important;padding-right:20px !important;}\\n    .h1{font-size:26px !important;line-height:30px !important;}\\n    .stack{display:block !important;width:100% !important;}\\n  }\\n</style>\\n</head>\\n<body style=\\\"margin:0;padding:0;background:#0C1C32;\\\">\\n<div style=\\\"display:none;max-height:0;overflow:hidden;font-size:1px;line-height:1px;color:#0C1C32;\\\">{{PRIMEIRO_NOME}}, o lote 01 vai até 01/10. Garanta seu lugar na Relevante 2026 · ALEGRIA. 15, 16 e 17 de outubro.&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;</div>\\n<table role=\\\"presentation\\\" width=\\\"100%\\\" cellpadding=\\\"0\\\" cellspacing=\\\"0\\\" style=\\\"background:#0C1C32;\\\">\\n<tr><td align=\\\"center\\\" style=\\\"padding:28px 12px;\\\">\\n<table role=\\\"presentation\\\" class=\\\"wrap\\\" width=\\\"600\\\" cellpadding=\\\"0\\\" cellspacing=\\\"0\\\" style=\\\"width:600px;max-width:600px;\\\">\\n\\n  <!-- Topo: logo juventude -->\\n  <tr><td align=\\\"center\\\" style=\\\"padding:0 0 18px 0;\\\">\\n    <img src=\\\"https://juventuderelevante.com.br/logos/logojuventudebranca-8.png\\\" width=\\\"110\\\" alt=\\\"Juventude Relevante\\\" style=\\\"width:110px;height:auto;margin:0 auto;\\\">\\n  </td></tr>\\n\\n  <!-- Hero -->\\n  <tr><td style=\\\"background:#081525;background-image:radial-gradient(ellipse at 50% 0%,#14315e 0%,#081525 60%);border:1px solid #213a63;border-radius:14px;\\\">\\n    <table role=\\\"presentation\\\" width=\\\"100%\\\" cellpadding=\\\"0\\\" cellspacing=\\\"0\\\">\\n      <tr><td align=\\\"center\\\" style=\\\"padding:26px 24px 6px 24px;\\\">\\n        <table role=\\\"presentation\\\" cellpadding=\\\"0\\\" cellspacing=\\\"0\\\"><tr>\\n          <td style=\\\"border:2px solid #d4ff1a;border-radius:999px;padding:7px 18px;font-family:'Baron Neue','Arial Black',Arial,sans-serif;font-size:13px;letter-spacing:2px;color:#d4ff1a;font-weight:700;\\\">15 | 16 | 17 DE OUTUBRO DE 2026</td>\\n        </tr></table>\\n      </td></tr>\\n      <tr><td align=\\\"center\\\" class=\\\"px\\\" style=\\\"padding:14px 34px 0 34px;\\\">\\n        <img src=\\\"https://juventuderelevante.com.br/logos/logo%20conferencia%202026.png\\\" width=\\\"520\\\" alt=\\\"Conferência Relevante 2026\\\" style=\\\"width:100%;max-width:520px;height:auto;margin:0 auto;\\\">\\n      </td></tr>\\n      <tr><td align=\\\"center\\\" style=\\\"padding:10px 24px 0 24px;\\\">\\n        <img src=\\\"https://juventuderelevante.com.br/logos/logo%20alegria.png\\\" width=\\\"210\\\" alt=\\\"ALEGRIA\\\" style=\\\"width:210px;height:auto;margin:0 auto;\\\">\\n      </td></tr>\\n      <tr><td align=\\\"center\\\" class=\\\"px\\\" style=\\\"padding:22px 40px 30px 40px;font-family:Georgia,'Times New Roman',serif;font-style:italic;font-size:15px;line-height:23px;color:#9fb6de;\\\">\\n        “Tenho-vos dito estas coisas para que a minha alegria esteja em vós, e a vossa alegria seja completa.”<br><span style=\\\"font-style:normal;font-family:Arial,sans-serif;font-size:12px;letter-spacing:1px;color:#d4ff1a;\\\">JOÃO 15:11</span>\\n      </td></tr>\\n    </table>\\n  </td></tr>\\n\\n  <!-- Texto -->\\n  <tr><td class=\\\"px\\\" style=\\\"padding:34px 36px 8px 36px;font-family:Arial,Helvetica,sans-serif;color:#D6E6FC;\\\">\\n    <p class=\\\"h1\\\" style=\\\"margin:0 0 14px 0;font-family:'Baron Neue','Arial Black',Arial,sans-serif;font-size:30px;line-height:34px;font-weight:900;color:#ffffff;\\\">Oi, {{PRIMEIRO_NOME}}! A Relevante está de volta.</p>\\n    <p style=\\\"margin:0 0 14px 0;font-size:16px;line-height:26px;\\\">Você viveu a Conferência Relevante em 2025 com a gente, e a gente quer você de novo. Em 2026 chegamos à <strong style=\\\"color:#ffffff;\\\">8ª edição</strong>, e o tema é <strong style=\\\"color:#d4ff1a;\\\">ALEGRIA</strong>: três dias de adoração e palavra com fundamento, com mais de mil jovens reunidos na IECG.</p>\\n    <p style=\\\"margin:0 0 14px 0;font-size:16px;line-height:26px;\\\">Quatro sessões nos dias <strong style=\\\"color:#ffffff;\\\">15, 16 e 17 de outubro</strong>, e o ingresso único dá acesso aos três dias.</p>\\n  </td></tr>\\n\\n  <!-- Line-up -->\\n  <tr><td class=\\\"px\\\" style=\\\"padding:12px 36px 0 36px;\\\">\\n    <table role=\\\"presentation\\\" width=\\\"100%\\\" cellpadding=\\\"0\\\" cellspacing=\\\"0\\\" style=\\\"background:#15294a;border-radius:12px;\\\">\\n      <tr><td style=\\\"padding:20px 22px 18px 22px;font-family:Arial,Helvetica,sans-serif;\\\">\\n        <p style=\\\"margin:0 0 8px 0;font-size:11px;letter-spacing:2px;color:#d4ff1a;font-weight:700;\\\">LINE-UP CONFIRMADO</p>\\n        <p style=\\\"margin:0;font-size:15px;line-height:25px;color:#ffffff;\\\">Apóstolo Edmilson · Pastor Aldo Giovanni · Pastora Rebeca · Bispo Teo Hayashi · Pastor Davi Lago · Preletor John Dias · Pastor Felippe Valadão</p>\\n      </td></tr>\\n    </table>\\n  </td></tr>\\n\\n  <!-- Lote -->\\n  <tr><td class=\\\"px\\\" style=\\\"padding:16px 36px 0 36px;\\\">\\n    <table role=\\\"presentation\\\" width=\\\"100%\\\" cellpadding=\\\"0\\\" cellspacing=\\\"0\\\" style=\\\"border:1px solid #d4ff1a;border-radius:12px;\\\">\\n      <tr><td style=\\\"padding:18px 22px;font-family:Arial,Helvetica,sans-serif;\\\">\\n        <p style=\\\"margin:0 0 6px 0;font-size:11px;letter-spacing:2px;color:#d4ff1a;font-weight:700;\\\">LOTE 01 · SÓ ATÉ 01/10</p>\\n        <p style=\\\"margin:0 0 4px 0;font-size:15px;line-height:24px;color:#D6E6FC;\\\">Frente <strong style=\\\"color:#ffffff;\\\">R$ 250</strong> &nbsp;·&nbsp; Intermediário <strong style=\\\"color:#ffffff;\\\">R$ 180</strong> &nbsp;·&nbsp; Galeria <strong style=\\\"color:#ffffff;\\\">R$ 160</strong></p>\\n        <p style=\\\"margin:0;font-size:13px;line-height:20px;color:#9fb6de;\\\">A partir de 02/10 entra o lote 02 e os valores sobem. Quem foi em 2025 sabe: os melhores setores acabam primeiro.</p>\\n      </td></tr>\\n    </table>\\n  </td></tr>\\n\\n  <!-- CTA -->\\n  <tr><td align=\\\"center\\\" style=\\\"padding:30px 36px 12px 36px;\\\">\\n    <table role=\\\"presentation\\\" cellpadding=\\\"0\\\" cellspacing=\\\"0\\\"><tr>\\n      <td class=\\\"btn\\\" align=\\\"center\\\" style=\\\"background:#d4ff1a;border-radius:8px;box-shadow:0 0 30px rgba(212,255,26,.35);\\\">\\n        <a href=\\\"{{LINK_SITE}}\\\" style=\\\"display:inline-block;padding:18px 40px;font-family:'Baron Neue','Arial Black',Arial,sans-serif;font-size:16px;letter-spacing:2px;font-weight:900;color:#0C1C32;text-decoration:none;\\\">GARANTIR MEU INGRESSO</a>\\n      </td>\\n    </tr></table>\\n    <p style=\\\"margin:14px 0 0 0;font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:20px;color:#9fb6de;\\\">ou <a href=\\\"{{LINK_VALORES}}\\\" style=\\\"color:#d4ff1a;text-decoration:underline;\\\">veja todos os setores, valores e lotes</a></p>\\n  </td></tr>\\n\\n  <!-- Local -->\\n  <tr><td class=\\\"px\\\" style=\\\"padding:22px 36px 30px 36px;font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:22px;color:#9fb6de;border-bottom:1px solid #213a63;\\\">\\n    <strong style=\\\"color:#D6E6FC;\\\">Onde:</strong> IECG · Igreja Evangélica Comunidade Global<br>Rua Treze de Maio, 1240 · Campo Grande, MS\\n  </td></tr>\\n\\n  <!-- Rodapé -->\\n  <tr><td align=\\\"center\\\" style=\\\"padding:22px 36px 0 36px;font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:19px;color:#6b7ba3;\\\">\\n    Você está recebendo este e-mail porque participou da Conferência Relevante 2025.<br>\\n    <a href=\\\"https://www.instagram.com/juventuderelevanteiecg/\\\" style=\\\"color:#9fb6de;text-decoration:none;\\\">@juventuderelevanteiecg</a> &nbsp;·&nbsp; <a href=\\\"https://juventuderelevante.com.br/\\\" style=\\\"color:#9fb6de;text-decoration:none;\\\">juventuderelevante.com.br</a><br>\\n    Não quer mais receber novidades da Conferência? <a href=\\\"mailto:{{REMETENTE}}?subject=SAIR&body=Quero%20sair%20da%20lista%20da%20Confer%C3%AAncia%20Relevante.\\\" style=\\\"color:#9fb6de;\\\">Responda com SAIR</a>.\\n  </td></tr>\\n\\n</table>\\n</td></tr>\\n</table>\\n</body>\\n</html>\\n\";\nconst cfg = $('Config').first().json;\nconst c = $input.first().json;\nconst htmlFinal = tpl\n  .replace(/{{PRIMEIRO_NOME}}/g, c.primeiro_nome)\n  .replace(/{{LINK_SITE}}/g, c.link_site)\n  .replace(/{{LINK_VALORES}}/g, c.link_valores)\n  .replace(/{{REMETENTE}}/g, cfg.remetenteEmail);\nreturn [{ json: { ...c, html: htmlFinal } }];"
+      },
+      "id": "b7fba887-84e5-4cea-bee7-761117fcdde6"
+    },
+    {
+      "name": "SMTP · enviar",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        260,
+        40
+      ],
+      "parameters": {
+        "fromEmail": "={{ $('Config').first().json.remetenteNome }} <{{ $('Config').first().json.remetenteEmail }}>",
+        "toEmail": "={{ $json.email }}",
+        "subject": "={{ $json.assunto }}",
+        "emailFormat": "html",
+        "html": "={{ $json.html }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "credentials": {
+        "smtp": {
+          "id": "",
+          "name": "SMTP Gmail"
+        }
+      },
+      "onError": "continueRegularOutput",
+      "id": "9ee336ad-37ca-4689-9f29-c10d902acf49"
+    },
+    {
+      "name": "Registrar envio",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        500,
+        40
+      ],
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "17KhNyvIzSCu29fEUDN3NtZorLouQyAlEjBGqpYHGGQQ"
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "name",
+          "value": "enviados"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "data_envio": "={{ $now.setZone('America/Campo_Grande').toFormat('dd/MM/yyyy HH:mm:ss') }}",
+            "id": "={{ $('Montar e-mail (HTML)').item.json.id }}",
+            "nome": "={{ $('Montar e-mail (HTML)').item.json.nome }}",
+            "email": "={{ $('Montar e-mail (HTML)').item.json.email }}",
+            "status": "={{ $json.error ? 'erro: ' + ($json.error.message || JSON.stringify($json.error)) : 'enviado' }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "data_envio",
+              "displayName": "data_envio",
+              "type": "string",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "id",
+              "displayName": "id",
+              "type": "string",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "nome",
+              "displayName": "nome",
+              "type": "string",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "email",
+              "displayName": "email",
+              "type": "string",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "type": "string",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "",
+          "name": "ColasConnect"
+        }
+      },
+      "id": "ecda1cf4-980b-4b9f-a438-86b5d815aa59"
+    },
+    {
+      "name": "Aguardar entre envios",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        740,
+        40
+      ],
+      "parameters": {
+        "amount": "={{ $('Config').first().json.intervaloSegundos }}",
+        "unit": "seconds"
+      },
+      "id": "ce08e0c1-7a27-4b37-b52a-ca3740ceefd5"
+    },
+    {
+      "name": "Fim do lote",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        20,
+        -180
+      ],
+      "parameters": {},
+      "id": "38115abc-255d-447c-bbed-d57ba44ea9bf"
+    },
+    {
+      "name": "Rastreio de cliques",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1500,
+        340
+      ],
+      "parameters": {
+        "width": 1500,
+        "height": 300,
+        "color": 4,
+        "content": "## Rastreio de cliques\nO link do e-mail aponta para `/webhook/relevante-click?c=<id>&d=site|valores`. O webhook redireciona na hora para o site e, em seguida, registra o clique na aba **cliques** (data, id, nome, e-mail, destino, user agent). A aba **resumo** calcula enviados, cliques, pessoas únicas e taxa. Precisa do workflow **ativo**."
+      },
+      "id": "97d89205-ac37-4a17-ae3c-692cf596ea67"
+    },
+    {
+      "name": "Clique no e-mail",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -1400,
+        440
+      ],
+      "webhookId": "f2fe269e-06cc-4d16-b978-81a3f2afce87",
+      "parameters": {
+        "path": "relevante-click",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "56263112-823c-4143-9966-92fb538fd223"
+    },
+    {
+      "name": "Redirecionar para o site",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        -1160,
+        440
+      ],
+      "parameters": {
+        "respondWith": "redirect",
+        "redirectURL": "={{ $json.query.d === 'valores' ? 'https://juventuderelevante.com.br/?utm_source=email&utm_medium=email&utm_campaign=relevante2026#valores' : 'https://juventuderelevante.com.br/?utm_source=email&utm_medium=email&utm_campaign=relevante2026' }}",
+        "options": {
+          "responseCode": 302
+        }
+      },
+      "id": "5e0c51d1-6578-4b79-8d58-a22206a4ff2f"
+    },
+    {
+      "name": "Buscar contato",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        -920,
+        440
+      ],
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "17KhNyvIzSCu29fEUDN3NtZorLouQyAlEjBGqpYHGGQQ"
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "name",
+          "value": "contatos"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "id",
+              "lookupValue": "={{ $('Clique no e-mail').first().json.query.c }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "",
+          "name": "ColasConnect"
+        }
+      },
+      "alwaysOutputData": true,
+      "onError": "continueRegularOutput",
+      "id": "4d81b36a-04e9-4266-9714-afcb3ff5d79a"
+    },
+    {
+      "name": "Registrar clique",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        -680,
+        440
+      ],
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "17KhNyvIzSCu29fEUDN3NtZorLouQyAlEjBGqpYHGGQQ"
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "name",
+          "value": "cliques"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "data_clique": "={{ $now.setZone('America/Campo_Grande').toFormat('dd/MM/yyyy HH:mm:ss') }}",
+            "id": "={{ $('Clique no e-mail').first().json.query.c || '' }}",
+            "nome": "={{ $json.nome || '' }}",
+            "email": "={{ $json.email || '' }}",
+            "destino": "={{ $('Clique no e-mail').first().json.query.d || 'site' }}",
+            "user_agent": "={{ $('Clique no e-mail').first().json.headers['user-agent'] || '' }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "data_clique",
+              "displayName": "data_clique",
+              "type": "string",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "id",
+              "displayName": "id",
+              "type": "string",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "nome",
+              "displayName": "nome",
+              "type": "string",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "email",
+              "displayName": "email",
+              "type": "string",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "destino",
+              "displayName": "destino",
+              "type": "string",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "user_agent",
+              "displayName": "user_agent",
+              "type": "string",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "",
+          "name": "ColasConnect"
+        }
+      },
+      "id": "c05e20a7-9335-41cf-8d2c-b521c226672c"
+    },
+    {
+      "name": "Setup (rodar 1x)",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1400,
+        760
+      ],
+      "parameters": {},
+      "id": "a380a7dc-1ec9-4c19-b12b-8c2e9c795682"
+    },
+    {
+      "name": "Criar aba enviados",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        -1160,
+        760
+      ],
+      "parameters": {
+        "resource": "sheet",
+        "operation": "create",
+        "documentId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "17KhNyvIzSCu29fEUDN3NtZorLouQyAlEjBGqpYHGGQQ"
+        },
+        "title": "enviados",
+        "options": {}
+      },
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "",
+          "name": "ColasConnect"
+        }
+      },
+      "onError": "continueRegularOutput",
+      "id": "1100a38d-5e70-4711-8ae4-fc3cd47b8e36"
+    },
+    {
+      "name": "Criar aba cliques",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        -920,
+        760
+      ],
+      "parameters": {
+        "resource": "sheet",
+        "operation": "create",
+        "documentId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "17KhNyvIzSCu29fEUDN3NtZorLouQyAlEjBGqpYHGGQQ"
+        },
+        "title": "cliques",
+        "options": {}
+      },
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "",
+          "name": "ColasConnect"
+        }
+      },
+      "onError": "continueRegularOutput",
+      "id": "219f4dc4-7320-4bc6-8f36-bdccb5569201"
+    },
+    {
+      "name": "Criar aba resumo",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        -680,
+        760
+      ],
+      "parameters": {
+        "resource": "sheet",
+        "operation": "create",
+        "documentId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "17KhNyvIzSCu29fEUDN3NtZorLouQyAlEjBGqpYHGGQQ"
+        },
+        "title": "resumo",
+        "options": {}
+      },
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "",
+          "name": "ColasConnect"
+        }
+      },
+      "onError": "continueRegularOutput",
+      "id": "601617e5-1112-4fee-b74a-0605330d63b8"
+    },
+    {
+      "name": "Linhas do resumo",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -440,
+        760
+      ],
+      "parameters": {
+        "jsCode": "return [{\"json\": {\"Indicador\": \"Total de contatos\", \"Valor\": \"=COUNTA(contatos!A:A)-1\"}}, {\"json\": {\"Indicador\": \"E-mails enviados\", \"Valor\": \"=COUNTA(enviados!A:A)-1\"}}, {\"json\": {\"Indicador\": \"Faltam enviar\", \"Valor\": \"=B2-B3\"}}, {\"json\": {\"Indicador\": \"Total de cliques\", \"Valor\": \"=COUNTA(cliques!A:A)-1\"}}, {\"json\": {\"Indicador\": \"Pessoas que clicaram (únicas)\", \"Valor\": \"=IF(B5=0;0;COUNTUNIQUE(cliques!B2:B))\"}}, {\"json\": {\"Indicador\": \"Taxa de clique (únicos / enviados)\", \"Valor\": \"=IF(B3=0;0;B6/B3)\"}}, {\"json\": {\"Indicador\": \"Último envio\", \"Valor\": \"=IF(B3=0;\\\"\\\";INDEX(enviados!A:A;COUNTA(enviados!A:A)))\"}}, {\"json\": {\"Indicador\": \"Último clique\", \"Valor\": \"=IF(B5=0;\\\"\\\";INDEX(cliques!A:A;COUNTA(cliques!A:A)))\"}}];"
+      },
+      "id": "d8e99329-51da-47ce-922f-01e13a973a2e"
+    },
+    {
+      "name": "Preencher resumo",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        -200,
+        760
+      ],
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "17KhNyvIzSCu29fEUDN3NtZorLouQyAlEjBGqpYHGGQQ"
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "name",
+          "value": "resumo"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [],
+          "schema": []
+        },
+        "options": {
+          "cellFormat": "USER_ENTERED"
+        }
+      },
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "",
+          "name": "ColasConnect"
+        }
+      },
+      "id": "0c322ec1-d07e-446d-a559-7533e915fc0e"
+    },
+    {
+      "name": "Nota setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1500,
+        680
+      ],
+      "parameters": {
+        "width": 1500,
+        "height": 220,
+        "color": 6,
+        "content": "## Setup (rodar 1x)\nCria as abas `enviados`, `cliques` e `resumo` na planilha e preenche as fórmulas do resumo. Se preferir, crie as abas à mão (cabeçalhos: enviados = data_envio, id, nome, email, status · cliques = data_clique, id, nome, email, destino, user_agent). As fórmulas do resumo usam `;` como separador (planilha em pt-BR); se a sua estiver em inglês, troque por `,`."
+      },
+      "id": "81dc9134-f420-45b9-9504-a9adca48b3fb"
+    }
+  ],
+  "connections": {
+    "Disparo manual": {
+      "main": [
+        [
+          {
+            "node": "Config",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Todo dia 09h": {
+      "main": [
+        [
+          {
+            "node": "Config",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Config": {
+      "main": [
+        [
+          {
+            "node": "Contatos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Contatos": {
+      "main": [
+        [
+          {
+            "node": "Já enviados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Já enviados": {
+      "main": [
+        [
+          {
+            "node": "Filtrar pendentes + limite diário",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filtrar pendentes + limite diário": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Fim do lote",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Montar e-mail (HTML)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Montar e-mail (HTML)": {
+      "main": [
+        [
+          {
+            "node": "SMTP · enviar",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SMTP · enviar": {
+      "main": [
+        [
+          {
+            "node": "Registrar envio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Registrar envio": {
+      "main": [
+        [
+          {
+            "node": "Aguardar entre envios",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aguardar entre envios": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Clique no e-mail": {
+      "main": [
+        [
+          {
+            "node": "Redirecionar para o site",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redirecionar para o site": {
+      "main": [
+        [
+          {
+            "node": "Buscar contato",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Buscar contato": {
+      "main": [
+        [
+          {
+            "node": "Registrar clique",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Setup (rodar 1x)": {
+      "main": [
+        [
+          {
+            "node": "Criar aba enviados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Criar aba enviados": {
+      "main": [
+        [
+          {
+            "node": "Criar aba cliques",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Criar aba cliques": {
+      "main": [
+        [
+          {
+            "node": "Criar aba resumo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Criar aba resumo": {
+      "main": [
+        [
+          {
+            "node": "Linhas do resumo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Linhas do resumo": {
+      "main": [
+        [
+          {
+            "node": "Preencher resumo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "America/Campo_Grande"
+  },
+  "pinData": {},
+  "meta": {
+    "instanceId": "relevante2026"
+  }
+}

@@ -1537,3 +1537,97 @@ section[id] { scroll-margin-top: 92px; }
   .ingressos-form { flex-direction: column; align-items: stretch; }
   .ingressos-form .btn { width: 100%; }
 }
+
+/* -------------------- KIDS / BABY (cena imersiva full-width) -------------------- */
+.kb { padding: 0; position: relative; }
+.kb-head { text-align: center; margin-bottom: 26px; }
+.kb-title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5.5vw, 3.6rem);
+  text-transform: uppercase; line-height: 0.98; margin: 14px 0 12px;
+  color: #f2e600;
+  text-shadow: -1px 1px 0 var(--blue-500), -2px 2px 0 var(--blue-600),
+    -3px 3px 0 var(--blue-700), -4px 4px 0 var(--blue-800);
+}
+.kb-title em { color: #fff; font-style: normal; }
+.kb-sub { color: var(--muted); max-width: 56ch; margin: 0 auto; }
+
+/* palco full-bleed */
+.kb-stage {
+  position: relative;
+  width: 100vw;
+  left: 50%; transform: translateX(-50%);
+  aspect-ratio: 1922 / 1081;
+  overflow: hidden;
+}
+.kb-l { position: absolute; height: auto; pointer-events: none; will-change: transform; }
+.kb-l.l-bg {
+  inset: 0; width: 100%; height: 100%; object-fit: cover;
+  pointer-events: none;
+}
+
+/* posições (do PSD) — KIDS */
+.kb-stage.kids .l-grupo   { left: 22.0%; top: 25.9%; width: 56.0%; z-index: 4; }
+.kb-stage.kids .l-logo    { left: 74.3%; top: 41.4%; width: 20.2%; z-index: 5; }
+.kb-stage.kids .l-pastor  { left: 2.5%;  top: 23.4%; width: 19.4%; z-index: 3; }
+.kb-stage.kids .l-doodles { left: 22.6%; top: 10.7%; width: 54.8%; z-index: 1; }
+.kb-stage.kids .l-cloud1  { left: -0.5%; top: 76.0%; width: 8.6%;  z-index: 2; }
+.kb-stage.kids .l-cloud2  { left: 91.7%; top: 29.2%; width: 8.6%;  z-index: 2; }
+/* posições — BABY */
+.kb-stage.baby .l-grupo   { left: 17.0%; top: 0%;    width: 68.3%; z-index: 4; }
+.kb-stage.baby .l-logo    { left: 75.4%; top: 44.5%; width: 17.1%; z-index: 5; }
+.kb-stage.baby .l-doodles { left: 18.5%; top: 10.7%; width: 59.9%; z-index: 1; }
+.kb-stage.baby .l-cloud1  { left: -0.5%; top: 76.0%; width: 8.6%;  z-index: 2; }
+.kb-stage.baby .l-cloud2  { left: 91.7%; top: 29.2%; width: 8.6%;  z-index: 2; }
+
+/* movimentos leves */
+/* o grupo/mundo só bobina de leve pra baixo (nunca sobe) — assim o globo
+   fica sempre encostado embaixo, atrás, sem mostrar corte/vão */
+.l-grupo   { animation: kbBob 6.5s ease-in-out infinite; }
+.l-pastor  { animation: kbFloat 7s ease-in-out infinite .6s; }
+.l-logo    { animation: kbFloatLogo 5s ease-in-out infinite; transform-origin: center; }
+.l-doodles { animation: kbFloatDoodles 9s ease-in-out infinite; }
+.l-cloud1  { animation: kbDrift 13s ease-in-out infinite; }
+.l-cloud2  { animation: kbDrift 16s ease-in-out infinite reverse; }
+@keyframes kbBob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(1.6%); } }
+@keyframes kbFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-2.8%); } }
+@keyframes kbFloatLogo { 0%,100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-6%) rotate(-2.5deg); } }
+@keyframes kbFloatDoodles { 0%,100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-2%) rotate(1.2deg); } }
+@keyframes kbDrift { 0%,100% { transform: translateX(0); } 50% { transform: translateX(16%); } }
+
+/* CTA integrado na cena */
+.kb-cta {
+  position: absolute; z-index: 10;
+  left: 50%; bottom: 4.5%; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 12px;
+  text-align: center; width: max-content; max-width: 92%;
+}
+.kb-price {
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 2.6vw, 2rem); color: #fff; line-height: 1;
+  text-shadow: 3px 3px 0 rgba(3,11,38,0.5), 0 0 22px rgba(0,0,0,0.45);
+}
+.kb-price small { color: var(--lime); font-size: 0.66em; }
+.kb-btn {
+  font-size: clamp(0.78rem, 1.6vw, 0.95rem); padding: 15px 32px;
+  animation: kbPulse 2.4s ease-in-out infinite;
+}
+@keyframes kbPulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+
+/* tarja divisória — faixa lisa (sem texto) */
+.kb-divider {
+  width: 100%;
+  height: 46px;
+  background: var(--lime);
+  border-top: 1px solid rgba(3,11,38,0.18);
+  border-bottom: 1px solid rgba(3,11,38,0.18);
+}
+
+@media (max-width: 700px) {
+  .kb-stage { aspect-ratio: 4 / 3; }
+  .kb-btn { padding: 13px 24px; }
+  .kb-divider { height: 34px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .l-grupo, .l-pastor, .l-logo, .l-doodles, .l-cloud1, .l-cloud2, .kb-btn, .kb-divider { animation: none; }
+}
