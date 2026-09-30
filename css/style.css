@@ -1624,9 +1624,22 @@ section[id] { scroll-margin-top: 92px; }
 }
 
 @media (max-width: 700px) {
-  .kb-stage { aspect-ratio: 4 / 3; }
-  .kb-btn { padding: 13px 24px; }
-  .kb-divider { height: 34px; }
+  /* mantém 16:9 para as camadas ficarem alinhadas (só escala) */
+  /* botão de inscrição sobreposto aos bonecos, num painel legível */
+  .kb-cta {
+    top: 58%; bottom: auto;
+    transform: translate(-50%, -50%);
+    gap: 10px;
+  }
+  .kb-price {
+    font-size: 1.05rem; text-shadow: none;
+    background: rgba(3,11,38,0.82);
+    padding: 6px 16px; border-radius: 100px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+  }
+  .kb-price small { color: var(--lime); }
+  .kb-btn { padding: 11px 22px; font-size: 0.78rem; }
+  .kb-divider { height: 32px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .l-grupo, .l-pastor, .l-logo, .l-doodles, .l-cloud1, .l-cloud2, .kb-btn, .kb-divider { animation: none; }
