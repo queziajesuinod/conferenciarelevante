@@ -204,3 +204,52 @@
     });
   }
 })();
+
+/* ============================================================
+   Virada automática de lote — 12/10/2026 00:01 (horário local)
+   Lote 01 passa a "esgotado" nos 3 setores e abre o Lote 02.
+   (exibição no site; a cobrança real é no app de ingressos)
+   ============================================================ */
+(function () {
+  'use strict';
+  var cutoff = new Date('2026-10-12T00:01:00').getTime();
+  if (Date.now() < cutoff) return;
+
+  // Cards de preço: reclassifica as linhas de lote
+  document.querySelectorAll('.price-card').forEach(function (card) {
+    card.querySelectorAll('.price-row').forEach(function (row) {
+      var lt = row.querySelector('.lt');
+      var t = lt ? lt.textContent.toLowerCase() : '';
+      row.classList.remove('current', 'past');
+      if (/lote\s*0[01]/.test(t)) row.classList.add('past');
+      else if (/lote\s*02/.test(t)) row.classList.add('current');
+    });
+  });
+
+  // Cronograma (chips)
+  document.querySelectorAll('.lote-chip').forEach(function (chip) {
+    var l = chip.querySelector('.l');
+    var d = chip.querySelector('.d');
+    var t = l ? l.textContent.toLowerCase() : '';
+    chip.classList.remove('current', 'past');
+    if (/lote\s*0[01]/.test(t)) {
+      chip.classList.add('past');
+      if (d && /lote\s*01/.test(t)) d.textContent = 'Encerrado';
+    } else if (/lote\s*02/.test(t)) {
+      chip.classList.add('current');
+      if (d) d.textContent = 'Vigente';
+    }
+  });
+
+  // "A partir de" nos setores passa a mostrar o Lote 02
+  document.querySelectorAll('.ticket[data-tier]').forEach(function (tk) {
+    var tier = tk.getAttribute('data-tier');
+    var pc = document.querySelector(
+      '.price-card[data-tier="' + tier + '"] .price-row.current .vl'
+    );
+    var val = tk.querySelector('.val');
+    var from = tk.querySelector('.from');
+    if (pc && val) val.textContent = pc.textContent.trim();
+    if (from) from.textContent = 'lote 02 · a partir de';
+  });
+})();

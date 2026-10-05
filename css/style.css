@@ -1653,3 +1653,26 @@ section[id] { scroll-margin-top: 92px; }
 @media (prefers-reduced-motion: reduce) {
   .l-grupo, .l-pastor, .l-logo, .l-doodles, .l-cloud1, .l-cloud2, .kb-btn, .kb-divider { animation: none; }
 }
+
+/* -------------------- SEJA PATROCINADOR -------------------- */
+.spon-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 50px;
+  align-items: center;
+}
+.spon-card {
+  border: 1px solid rgba(120,170,255,0.2);
+  border-radius: var(--radius-lg);
+  padding: 48px 44px;
+  background: linear-gradient(160deg, rgba(15,63,196,0.18), rgba(3,11,38,0.5));
+}
+.spon-card .section-title { margin-top: 14px; }
+.spon-card p { color: var(--muted); margin: 20px 0 30px; font-size: 1.05rem; max-width: 46ch; }
+.spon-visual { display: grid; place-items: center; }
+.spon-visual img { width: 76%; max-width: 360px; filter: drop-shadow(0 20px 50px rgba(0,0,0,0.4)); }
+@media (max-width: 860px) {
+  .spon-grid { grid-template-columns: 1fr; gap: 30px; }
+  .spon-visual { order: -1; }
+  .spon-visual img { max-width: 240px; }
+}
