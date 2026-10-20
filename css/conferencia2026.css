@@ -1,0 +1,279 @@
+/* ============================================================
+   CONFERÊNCIA RELEVANTE 2026 — Página de Resumos (/conferencia2026)
+   Tema ESCURO (azul da marca), igual ao restante do site.
+   Reaproveita tokens, nav, botões, footer e fontes de style.css.
+   ============================================================ */
+
+/* -------------------- HERO -------------------- */
+.recap-hero {
+  position: relative;
+  padding: 160px 0 80px;
+  text-align: center;
+  overflow: hidden;
+}
+.recap-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(1100px 620px at 50% -10%, rgba(55, 160, 255, 0.28), transparent 60%),
+    radial-gradient(800px 480px at 50% 120%, rgba(212, 255, 26, 0.10), transparent 60%);
+  pointer-events: none;
+}
+.recap-hero .eyebrow {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-size: 0.8rem;
+  color: var(--lime);
+  margin-bottom: 18px;
+}
+.recap-hero h1 {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  line-height: 0.98;
+  font-size: clamp(2.6rem, 8vw, 5.6rem);
+  letter-spacing: 0.01em;
+}
+.recap-hero h1 .text-lime { color: var(--lime); }
+.recap-hero .lead {
+  max-width: 60ch;
+  margin: 26px auto 0;
+  color: var(--muted);
+  font-size: clamp(1rem, 2.4vw, 1.2rem);
+}
+.recap-hero .hero-actions {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 38px;
+}
+.recap-meta {
+  display: flex;
+  gap: 10px 22px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 40px;
+  color: var(--muted-dim);
+  font-size: 0.86rem;
+}
+.recap-meta span { display: inline-flex; align-items: center; gap: 8px; }
+.recap-meta b { color: var(--white); font-weight: 600; }
+
+/* -------------------- SEÇÃO / TÍTULOS -------------------- */
+.recap-section { padding: 70px 0; }
+.recap-section-head {
+  max-width: 760px;
+  margin: 0 auto 50px;
+  text-align: center;
+}
+.recap-section-head h2 {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  font-size: clamp(1.8rem, 5vw, 3rem);
+  line-height: 1.02;
+}
+.recap-section-head h2 .text-lime { color: var(--lime); }
+.recap-section-head p {
+  color: var(--muted);
+  margin-top: 16px;
+  font-size: 1.04rem;
+}
+
+/* -------------------- GRID DE PALAVRAS -------------------- */
+.talks-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+  gap: 26px;
+}
+
+.talk-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(180deg, rgba(10, 25, 70, 0.72), rgba(3, 11, 38, 0.72));
+  border: 1px solid rgba(120, 170, 255, 0.16);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: transform .35s var(--ease-out), border-color .35s, box-shadow .35s;
+}
+.talk-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(212, 255, 26, 0.5);
+  box-shadow: 0 20px 60px rgba(3, 11, 38, 0.6);
+}
+
+.talk-top {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 22px 22px 18px;
+  border-bottom: 1px solid rgba(120, 170, 255, 0.12);
+}
+.talk-photo {
+  flex: 0 0 auto;
+  width: 78px;
+  height: 78px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: top center;
+  background: var(--blue-800);
+  border: 2px solid var(--lime);
+  box-shadow: var(--glow-lime);
+}
+.talk-id { min-width: 0; }
+.talk-session {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.68rem;
+  color: var(--lime);
+}
+.talk-speaker {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  font-size: 1.02rem;
+  line-height: 1.1;
+  margin-top: 4px;
+}
+.talk-when {
+  color: var(--muted-dim);
+  font-size: 0.8rem;
+  margin-top: 4px;
+}
+
+/* numeração grande da palavra */
+.talk-num {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  font-family: var(--font-display);
+  font-size: 2.6rem;
+  line-height: 1;
+  color: rgba(120, 170, 255, 0.16);
+  pointer-events: none;
+}
+
+/* corpo */
+.talk-body { padding: 22px; display: flex; flex-direction: column; gap: 16px; flex: 1; }
+.talk-title {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  font-size: 1.25rem;
+  line-height: 1.08;
+}
+.talk-verse {
+  display: inline-block;
+  align-self: flex-start;
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.64rem;
+  color: var(--blue-950);
+  background: var(--lime);
+  padding: 5px 12px;
+  border-radius: 100px;
+}
+.talk-key {
+  position: relative;
+  border-left: 3px solid var(--lime);
+  padding: 2px 0 2px 16px;
+  color: var(--white);
+  font-style: italic;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+.talk-summary {
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+.talk-points {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  margin-top: 2px;
+}
+.talk-points li {
+  position: relative;
+  padding-left: 22px;
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+.talk-points li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--lime);
+  box-shadow: 0 0 10px rgba(212, 255, 26, 0.6);
+}
+
+/* -------------------- CTA DE DOWNLOAD -------------------- */
+.download-cta {
+  position: relative;
+  margin: 20px 0 10px;
+}
+.download-card {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--blue-800), var(--blue-950));
+  border: 1px solid rgba(212, 255, 26, 0.35);
+  border-radius: var(--radius-lg);
+  padding: clamp(32px, 6vw, 60px);
+  text-align: center;
+}
+.download-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: radial-gradient(600px 300px at 50% 0%, rgba(212, 255, 26, 0.16), transparent 70%);
+  pointer-events: none;
+}
+.download-card > * { position: relative; z-index: 1; }
+.download-card .eyebrow {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 0.76rem;
+  color: var(--lime);
+}
+.download-card h2 {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  font-size: clamp(1.8rem, 5vw, 3.2rem);
+  line-height: 1.02;
+  margin: 14px 0 12px;
+}
+.download-card p {
+  color: var(--muted);
+  max-width: 54ch;
+  margin: 0 auto 30px;
+  font-size: 1.04rem;
+}
+.download-card .btn-lg {
+  --pad-y: 20px;
+  font-size: 1rem;
+  padding: var(--pad-y) 42px;
+}
+.download-note {
+  margin-top: 18px;
+  color: var(--muted-dim);
+  font-size: 0.84rem;
+}
+
+/* -------------------- RESPONSIVO -------------------- */
+@media (max-width: 680px) {
+  .recap-hero { padding: 130px 0 56px; }
+  .talks-grid { grid-template-columns: 1fr; }
+  .talk-photo { width: 64px; height: 64px; }
+  .recap-hero .hero-actions .btn { flex: 1; }
+}

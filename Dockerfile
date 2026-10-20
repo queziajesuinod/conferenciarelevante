@@ -18,8 +18,14 @@ FROM nginx:1.27-alpine
 # Configuração do nginx (inclui o endpoint /healthz)
 COPY --from=source /tmp/project/nginx/default.conf /etc/nginx/conf.d/default.conf
 
-# Página principal (Conferência) + assets estáticos
-COPY --from=source /tmp/project/index.html /usr/share/nginx/html/index.html
+# Página principal = Juventude Relevante (index2.html servido como index.html)
+COPY --from=source /tmp/project/index2.html          /usr/share/nginx/html/index.html
+# Página de resumo da Conferência (rota /conferencia2026)
+COPY --from=source /tmp/project/conferencia2026.html /usr/share/nginx/html/conferencia2026.html
+# Página de detalhe de ministração (rota /ministracao)
+COPY --from=source /tmp/project/ministracao.html     /usr/share/nginx/html/ministracao.html
+# Landing antiga da Conferência (ingressos) — mantida apenas como arquivo de referência
+COPY --from=source /tmp/project/index.html           /usr/share/nginx/html/conferencia-ingressos.html
 COPY --from=source /tmp/project/assets     /usr/share/nginx/html/assets
 COPY --from=source /tmp/project/css        /usr/share/nginx/html/css
 COPY --from=source /tmp/project/js         /usr/share/nginx/html/js
