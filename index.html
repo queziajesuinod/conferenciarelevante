@@ -81,7 +81,7 @@
       content="Uma geração relevante para Jesus. Culto todo sábado às 18h."
     />
 
-    <link rel="stylesheet" href="css/home.css?v=20261023" />
+    <link rel="stylesheet" href="css/home.css?v=20261025d" />
 
     <!-- Dados estruturados -->
     <script type="application/ld+json">
@@ -124,6 +124,7 @@
   </head>
 
   <body>
+    <div class="scroll-progress" aria-hidden="true"></div>
     <div class="stars" aria-hidden="true"></div>
 
     <!-- ============ NAVBAR ============ -->
@@ -139,13 +140,13 @@
           <a href="#sobre">Sobre</a>
           <a href="#culto">Culto</a>
           <a href="#celulas">Células</a>
+          <a href="#eventos">Eventos</a>
           <a href="#conferencia">Conferência</a>
           <a href="#ministracoes">Ministrações</a>
+          <a href="/aovivo" class="nl-live">Ao vivo</a>
         </nav>
         <div class="nav-cta">
-          <a href="/conferencia2026" class="btn btn-ghost"
-            >Resumo da Conferência</a
-          >
+          <a href="/aovivo" class="btn btn-ghost btn-live"><i></i>Ao vivo</a>
           <a
             href="https://start.iecg.com.br/"
             target="_blank"
@@ -171,22 +172,22 @@
         <span class="tri up"></span>
       </div>
       <div class="container">
-        <span class="eyebrow center">Igreja Evangélica Comunidade Global</span>
+        <span class="eyebrow center hero-in">Igreja Evangélica Comunidade Global</span>
 
-        <h1 class="hero-logo">
+        <h1 class="hero-logo hero-in" style="--d: 1">
           <img
             src="logos/logojuventudebranca-8.png"
             alt="Juventude Relevante"
           />
         </h1>
 
-        <p class="hero-tagline">
+        <p class="hero-tagline hero-in" style="--d: 2">
           Uma geração <b>relevante para Jesus</b>. Um lugar para pertencer,
           crescer na fé e viver o propósito de Deus junto com pessoas reais.
           <b>Todo sábado às 18h</b>.
         </p>
 
-        <div class="hero-actions">
+        <div class="hero-actions hero-in" style="--d: 3">
           <a
             href="https://start.iecg.com.br/"
             target="_blank"
@@ -212,6 +213,9 @@
           >
         </div>
       </div>
+      <a href="#sobre" class="scroll-cue" aria-label="Rolar para o conteúdo">
+        <span></span>
+      </a>
     </section>
 
     <!-- ============ MARQUEE ============ -->
@@ -246,7 +250,7 @@
             </p>
           </div>
           <div class="pillars reveal" data-delay="1">
-            <div class="pillar">
+            <div class="pillar spot">
               <div class="ic">
                 <svg
                   viewBox="0 0 24 24"
@@ -263,7 +267,7 @@
               <h4>Adoração</h4>
               <p>Uma vida rendida a Deus em espírito e em verdade.</p>
             </div>
-            <div class="pillar">
+            <div class="pillar spot">
               <div class="ic">
                 <svg
                   viewBox="0 0 24 24"
@@ -281,7 +285,7 @@
               <h4>Palavra</h4>
               <p>Fundamento firme na Bíblia para uma fé que sustenta.</p>
             </div>
-            <div class="pillar">
+            <div class="pillar spot">
               <div class="ic">
                 <svg
                   viewBox="0 0 24 24"
@@ -298,7 +302,7 @@
               <h4>Células</h4>
               <p>Grupos pequenos onde ninguém caminha sozinho.</p>
             </div>
-            <div class="pillar">
+            <div class="pillar spot">
               <div class="ic">
                 <svg
                   viewBox="0 0 24 24"
@@ -320,7 +324,7 @@
     </section>
 
     <!-- ============ CULTO / HORÁRIOS ============ -->
-    <section class="section-pad" id="culto">
+    <section class="section-pad sec-teal" id="culto">
       <div class="container">
         <div class="section-head center reveal">
           <span class="eyebrow center">Venha nos encontrar</span>
@@ -332,7 +336,7 @@
         </div>
 
         <div class="info-grid">
-          <div class="info-card reveal">
+          <div class="info-card spot reveal">
             <div class="ic">
               <svg
                 viewBox="0 0 24 24"
@@ -351,9 +355,10 @@
               <b>18h</b> · adoração, palavra e comunhão. Chegue um pouco antes e
               venha com quem você ama.
             </p>
+            <div class="next-culto" data-next-culto></div>
           </div>
 
-          <div class="info-card reveal" data-delay="1">
+          <div class="info-card spot reveal" data-delay="1">
             <div class="ic">
               <svg
                 viewBox="0 0 24 24"
@@ -390,7 +395,7 @@
             </a>
           </div>
 
-          <div class="info-card reveal" data-delay="2">
+          <div class="info-card spot reveal" data-delay="2">
             <div class="ic">
               <svg
                 viewBox="0 0 24 24"
@@ -469,8 +474,40 @@
       </div>
     </section>
 
+    <!-- ============ PRÓXIMOS EVENTOS (API do portal) ============ -->
+    <section class="section-pad events" id="eventos">
+      <div class="container">
+        <div class="videos-head reveal">
+          <div class="section-head" style="margin: 0">
+            <span class="eyebrow">Agenda</span>
+            <h2 class="section-title">Próximos <em>eventos</em></h2>
+            <p class="section-sub">
+              Encontros, conferências e tudo o que está por vir na IECG. Garanta
+              a sua vaga.
+            </p>
+          </div>
+          <span class="events-count" data-events-count></span>
+        </div>
+
+        <div
+          class="events-list events-skeleton"
+          id="eventsList"
+          data-api="https://portal.iecg.com.br/api/public/events"
+        >
+          <div class="ev-card"><div class="ev-media"></div><div class="ev-body"><span class="sk-l"></span><span class="sk-l w60"></span></div></div>
+          <div class="ev-card"><div class="ev-media"></div><div class="ev-body"><span class="sk-l"></span><span class="sk-l w60"></span></div></div>
+          <div class="ev-card"><div class="ev-media"></div><div class="ev-body"><span class="sk-l"></span><span class="sk-l w60"></span></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Modal de detalhes do evento -->
+    <div class="ev-modal" id="evModal" role="dialog" aria-modal="true" aria-labelledby="evModalTitle" hidden>
+      <div class="ev-modal-inner" data-lenis-prevent></div>
+    </div>
+
     <!-- ============ CONFERÊNCIA 2026 (RESUMO) ============ -->
-    <section class="section-pad conf" id="conferencia">
+    <section class="section-pad conf sec-teal" id="conferencia">
       <div class="container">
         <div class="section-head center reveal">
           <span class="eyebrow center">Nosso maior encontro</span>
@@ -537,21 +574,30 @@
             <span class="eyebrow">Palavra que edifica</span>
             <h2 class="section-title">Ministrações</h2>
             <p class="section-sub">
-              As mensagens mais recentes da Juventude Relevante. Reveja,
+              As 6 mensagens mais recentes da Juventude Relevante. Reveja,
               compartilhe e cresça.
             </p>
           </div>
-          <a
-            href="https://www.youtube.com/channel/UCQgiTCH_nbNmvej0ZA6YE5Q"
-            target="_blank"
-            rel="noopener"
-            class="btn btn-ghost"
-            >Ver canal no YouTube</a
-          >
+          <a href="/ministracoes" class="btn btn-primary">
+            Ver todas
+            <span class="btn-count" data-videos-count="total">…</span>
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+            >
+              <path
+                d="M5 12h14M13 6l6 6-6 6"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </a>
         </div>
 
         <div
-          class="videos-grid videos-skeleton"
+          class="videos-grid videos-home videos-skeleton"
           id="videosGrid"
           data-channel="UCQgiTCH_nbNmvej0ZA6YE5Q"
           data-api="https://portal.iecg.com.br/api/public/videos"
@@ -599,7 +645,49 @@
             </div>
           </div>
         </div>
+
+        <a href="/ministracoes" class="videos-more reveal spot" data-videos-more>
+          <span class="vm-num" data-videos-count="rest">+</span>
+          <span class="vm-text">
+            <b>ministrações no acervo</b>
+            <small>Busque por série, tema ou pregador e assista quando quiser.</small>
+          </span>
+          <span class="vm-go">
+            Ver todas as ministrações
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+            >
+              <path
+                d="M5 12h14M13 6l6 6-6 6"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </span>
+        </a>
       </div>
+    </section>
+
+    <!-- ============ MOMENTOS (galeria) ============ -->
+    <section class="section-pad moments-sec" id="momentos">
+      <div class="container">
+        <div class="videos-head reveal">
+          <div class="section-head" style="margin: 0">
+            <span class="eyebrow">Momentos</span>
+            <h2 class="section-title">Vida em <em>comunidade</em></h2>
+            <p class="section-sub">
+              Um pouco do que Deus tem feito entre nós. Toque numa foto para
+              ampliar.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="moments" id="gallery" aria-label="Galeria de fotos"></div>
+
     </section>
 
     <!-- ============ FOOTER ============ -->
@@ -669,13 +757,15 @@
             <a href="#sobre">Sobre</a>
             <a href="#culto">Culto</a>
             <a href="#celulas">Células</a>
-            <a href="#ministracoes">Ministrações</a>
+            <a href="/ministracoes">Todas as ministrações</a>
           </div>
           <div class="footer-col">
             <h5>PARTICIPE</h5>
             <a href="https://start.iecg.com.br/" target="_blank" rel="noopener"
               >Conectar-se</a
             >
+            <a href="#eventos">Próximos eventos</a>
+            <a href="/aovivo">Culto ao vivo</a>
             <a href="/conferencia2026">Resumo da Conferência</a>
             <a
               href="https://www.youtube.com/channel/UCQgiTCH_nbNmvej0ZA6YE5Q"
@@ -829,73 +919,12 @@
             })
           })
         })
-
-        // Lightbox da galeria
-        var lb = document.getElementById('lightbox')
-        var gallery = document.getElementById('gallery')
-        if (lb && gallery) {
-          var items = Array.prototype.slice.call(
-            gallery.querySelectorAll('.g-item')
-          )
-          var lbImg = document.getElementById('lbImg')
-          var lbCap = document.getElementById('lbCap')
-          var idx = 0
-          var show = function (i) {
-            idx = (i + items.length) % items.length
-            var a = items[idx]
-            var im = a.querySelector('img')
-            lb.classList.remove('show-img')
-            lbImg.src = a.getAttribute('href')
-            lbImg.alt = im ? im.alt : ''
-            lbCap.textContent = a.getAttribute('data-cap') || ''
-            requestAnimationFrame(function () {
-              lb.classList.add('show-img')
-            })
-          }
-          var openLb = function (i) {
-            show(i)
-            lb.classList.add('open')
-            lb.setAttribute('aria-hidden', 'false')
-            document.body.style.overflow = 'hidden'
-          }
-          var closeLb = function () {
-            lb.classList.remove('open', 'show-img')
-            lb.setAttribute('aria-hidden', 'true')
-            document.body.style.overflow = ''
-          }
-          items.forEach(function (a, i) {
-            a.addEventListener('click', function (e) {
-              e.preventDefault()
-              openLb(i)
-            })
-          })
-          document.getElementById('lbClose').addEventListener('click', closeLb)
-          document
-            .getElementById('lbPrev')
-            .addEventListener('click', function (e) {
-              e.stopPropagation()
-              show(idx - 1)
-            })
-          document
-            .getElementById('lbNext')
-            .addEventListener('click', function (e) {
-              e.stopPropagation()
-              show(idx + 1)
-            })
-          lb.addEventListener('click', function (e) {
-            if (e.target === lb) closeLb()
-          })
-          document.addEventListener('keydown', function (e) {
-            if (!lb.classList.contains('open')) return
-            if (e.key === 'Escape') closeLb()
-            else if (e.key === 'ArrowLeft') show(idx - 1)
-            else if (e.key === 'ArrowRight') show(idx + 1)
-          })
-        }
       })()
     </script>
 
     <script src="js/lenis.min.js"></script>
+    <script src="js/videos.js"></script>
     <script src="js/home.js"></script>
+    <script src="js/eventos.js"></script>
   </body>
 </html>

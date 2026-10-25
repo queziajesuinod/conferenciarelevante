@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#030b26" />
+    <meta name="theme-color" content="#0C1C32" />
     <title>Ministração · Juventude Relevante</title>
     <meta name="description" content="Ministração da Juventude Relevante · IECG. Assista, leia o resumo e cresça na fé." id="metaDesc" />
     <meta name="robots" content="index, follow" />
@@ -12,23 +12,29 @@
     <meta property="og:site_name" content="Juventude Relevante · IECG" />
     <meta property="og:title" content="Ministração · Juventude Relevante" id="ogTitle" />
     <meta property="og:description" content="Assista e leia o resumo da mensagem." id="ogDesc" />
-    <link rel="stylesheet" href="css/home.css" />
+    <link rel="stylesheet" href="css/home.css?v=20261025d" />
   </head>
   <body>
+    <div class="scroll-progress" aria-hidden="true"></div>
+    <div class="stars" aria-hidden="true"></div>
+
     <!-- NAVBAR -->
-    <header class="nav scrolled" id="nav">
+    <header class="nav" id="nav">
       <div class="container">
         <a href="/" class="nav-logo" aria-label="Juventude Relevante">
           <img src="logos/logojuventudebranca-8.png" alt="Juventude Relevante" />
         </a>
         <nav class="nav-links" id="navLinks">
           <a href="/#sobre">Sobre</a>
+          <a href="/#culto">Culto</a>
           <a href="/#celulas">Células</a>
+          <a href="/#eventos">Eventos</a>
           <a href="/#conferencia">Conferência</a>
-          <a href="/#ministracoes">Ministrações</a>
+          <a href="/ministracoes" aria-current="page">Ministrações</a>
+          <a href="/aovivo" class="nl-live">Ao vivo</a>
         </nav>
         <div class="nav-cta">
-          <a href="/conferencia2026" class="btn btn-ghost">Conferência 2026</a>
+          <a href="/aovivo" class="btn btn-ghost btn-live"><i></i>Ao vivo</a>
           <a href="https://start.iecg.com.br/" target="_blank" rel="noopener" class="btn btn-primary">Faça parte</a>
           <button class="nav-toggle" id="navToggle" aria-label="Abrir menu"><span></span><span></span><span></span></button>
         </div>
@@ -36,11 +42,14 @@
     </header>
 
     <!-- CONTEÚDO -->
-    <main class="post-wrap">
+    <main class="mn" id="post">
       <div class="container">
-        <article class="post" id="post">
-          <div class="post-loading">Carregando ministração…</div>
-        </article>
+        <div class="mn-skeleton" aria-label="Carregando ministração">
+          <span class="sk sk-sm"></span>
+          <span class="sk sk-title"></span>
+          <span class="sk sk-line"></span>
+          <span class="sk sk-player"></span>
+        </div>
       </div>
     </main>
 
@@ -49,11 +58,14 @@
       <div class="container">
         <div class="footer-bottom" style="border:0;padding-top:0">
           <span>© 2026 Juventude Relevante · IECG</span>
-          <a href="/#ministracoes" class="text-lime">← Voltar às ministrações</a>
+          <a href="/ministracoes" class="text-ice">← Todas as ministrações</a>
         </div>
       </div>
     </footer>
 
+    <script src="js/lenis.min.js"></script>
+    <script src="js/videos.js"></script>
+    <script src="js/home.js"></script>
     <script src="js/ministracao.js"></script>
   </body>
 </html>

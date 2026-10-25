@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0C1C32" />
+
+    <!-- Google Analytics (GA4) + Consent Mode v2 -->
+    <script>
+      window.dataLayer = window.dataLayer || []
+      function gtag() {
+        dataLayer.push(arguments)
+      }
+      gtag('consent', 'default', {
+        ad_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied',
+        analytics_storage: 'denied',
+        functionality_storage: 'granted',
+        security_storage: 'granted',
+        wait_for_update: 500
+      })
+      try {
+        var __c = localStorage.getItem('jr_consent')
+        if (__c === 'granted' || __c === 'denied') {
+          gtag('consent', 'update', {
+            ad_storage: __c,
+            ad_user_data: __c,
+            ad_personalization: __c,
+            analytics_storage: __c
+          })
+        }
+      } catch (e) {}
+    </script>
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-L4WH45SJP2"
+    ></script>
+    <script>
+      gtag('js', new Date())
+      gtag('config', 'G-L4WH45SJP2')
+    </script>
+
+    <title>Ao vivo · Culto da Juventude Relevante · IECG</title>
+    <meta
+      name="description"
+      content="Assista ao vivo ao Culto da Juventude Relevante, todo sábado às 18h, direto da IECG."
+    />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://juventuderelevante.com.br/aovivo" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Juventude Relevante · IECG" />
+    <meta property="og:title" content="Ao vivo · Culto da Juventude Relevante" />
+    <meta property="og:description" content="Todo sábado às 18h. Assista ao vivo de onde estiver." />
+    <meta property="og:url" content="https://juventuderelevante.com.br/aovivo" />
+    <meta property="og:image" content="https://juventuderelevante.com.br/assets/galeria/hero-multidao.jpg" />
+    <meta property="og:locale" content="pt_BR" />
+
+    <link rel="stylesheet" href="css/home.css?v=20261025d" />
+  </head>
+
+  <body class="page-live">
+    <div class="scroll-progress" aria-hidden="true"></div>
+    <div class="stars" aria-hidden="true"></div>
+
+    <!-- ============ NAVBAR ============ -->
+    <header class="nav" id="nav">
+      <div class="container">
+        <a href="/" class="nav-logo" aria-label="Juventude Relevante">
+          <img src="logos/logojuventudebranca-8.png" alt="Juventude Relevante" />
+        </a>
+        <nav class="nav-links" id="navLinks">
+          <a href="/#sobre">Sobre</a>
+          <a href="/#culto">Culto</a>
+          <a href="/#celulas">Células</a>
+          <a href="/#eventos">Eventos</a>
+          <a href="/#conferencia">Conferência</a>
+          <a href="/ministracoes">Ministrações</a>
+          <a href="/aovivo" class="nl-live" aria-current="page">Ao vivo</a>
+        </nav>
+        <div class="nav-cta">
+          <a href="/aovivo" class="btn btn-ghost btn-live" aria-current="page"><i></i>Ao vivo</a>
+          <a
+            href="https://start.iecg.com.br/"
+            target="_blank"
+            rel="noopener"
+            class="btn btn-primary"
+            >Faça parte</a
+          >
+          <button class="nav-toggle" id="navToggle" aria-label="Abrir menu">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="live-page">
+      <div class="container">
+        <div class="live-head">
+          <div>
+            <span class="live-badge hero-in" id="liveBadge"><i></i><span>Carregando…</span></span>
+            <h1 class="page-title hero-in" style="--d: 1">
+              Culto <em>ao vivo</em>
+            </h1>
+            <p class="page-sub hero-in" style="--d: 2" id="liveSub">
+              Todo sábado às 18h, direto da IECG. Assista de onde estiver.
+            </p>
+          </div>
+          <div class="live-countdown hero-in" style="--d: 3" id="liveCountdown" aria-live="polite" hidden>
+            <small>Próximo culto em</small>
+            <div class="lc-digits">
+              <div><b data-u="d">0</b><span>dias</span></div>
+              <div><b data-u="h">00</b><span>horas</span></div>
+              <div><b data-u="m">00</b><span>min</span></div>
+              <div><b data-u="s">00</b><span>seg</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="live-player hero-in" style="--d: 4">
+          <div class="live-frame" id="liveFrame"></div>
+          <div class="live-label" id="liveLabel"></div>
+        </div>
+
+        <div class="live-actions">
+          <button type="button" class="btn btn-ghost" id="liveToggle" hidden></button>
+          <a
+            class="btn btn-primary"
+            href="https://www.youtube.com/@JuventudeRelevante/streams"
+            target="_blank"
+            rel="noopener"
+            id="liveYt"
+          >
+            Abrir no YouTube
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </a>
+          <a
+            class="btn btn-ghost"
+            href="https://www.youtube.com/channel/UCQgiTCH_nbNmvej0ZA6YE5Q?sub_confirmation=1"
+            target="_blank"
+            rel="noopener"
+            >Inscrever-se no canal 🔔</a
+          >
+        </div>
+
+        <div class="live-info">
+          <div class="info-card spot reveal">
+            <span class="tag">Quando</span>
+            <h3>Todo <span class="big">sábado</span></h3>
+            <p><b>18h</b> · horário de Campo Grande (MS).</p>
+          </div>
+          <div class="info-card spot reveal" data-delay="1">
+            <span class="tag">Presencial</span>
+            <h3>IECG</h3>
+            <p>Rua Treze de Maio, 1240. Vem com a gente!</p>
+            <a
+              class="mapln"
+              href="https://www.google.com/maps/search/?api=1&query=IECG+Rua+Treze+de+Maio+1240"
+              target="_blank"
+              rel="noopener"
+              >Ver no mapa
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+            </a>
+          </div>
+          <div class="info-card spot reveal" data-delay="2">
+            <span class="tag">Perdeu?</span>
+            <h3>Reveja</h3>
+            <p>Todas as mensagens ficam salvas, com resumo e pontos principais.</p>
+            <a class="mapln" href="/ministracoes"
+              >Ver ministrações
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-bottom" style="border: 0; padding-top: 0">
+          <span>© 2026 Juventude Relevante · IECG</span>
+          <a href="/" class="text-ice">← Voltar ao início</a>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/lenis.min.js"></script>
+    <script src="js/videos.js"></script>
+    <script src="js/home.js"></script>
+    <script src="js/aovivo.js"></script>
+  </body>
+</html>

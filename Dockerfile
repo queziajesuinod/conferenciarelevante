@@ -12,7 +12,16 @@ RUN apk add --no-cache git
 RUN echo "cachebust=${CACHEBUST}" && \
     git clone --depth 1 --branch "${REPO_REF}" "${REPO_URL}" project
 
-# ---------- Stage 2: serve com nginx ----------
+# ---------- Stage 2: pré-render (SEO + prévias de link) ----------
+# Gera cópias de /ministracao e /evento com título/imagem preenchidos e o
+# sitemap.xml a partir das APIs do portal. Se a API estiver fora, o build
+# segue normalmente (o site funciona igual, só sem as prévias).
+FROM node:22-alpine AS prerender
+COPY --from=source /tmp/project /app
+WORKDIR /app
+RUN node scripts/prerender.mjs /out || mkdir -p /out
+
+# ---------- Stage 3: serve com nginx ----------
 FROM nginx:1.27-alpine
 
 # Configuração do nginx (inclui o endpoint /healthz)
@@ -24,11 +33,22 @@ COPY --from=source /tmp/project/index.html           /usr/share/nginx/html/index
 COPY --from=source /tmp/project/conferencia2026.html /usr/share/nginx/html/conferencia2026.html
 # Página de detalhe de ministração (rota /ministracao)
 COPY --from=source /tmp/project/ministracao.html     /usr/share/nginx/html/ministracao.html
+# Lista completa de ministrações (rota /ministracoes)
+COPY --from=source /tmp/project/ministracoes.html    /usr/share/nginx/html/ministracoes.html
+# Transmissão ao vivo (rota /aovivo)
+COPY --from=source /tmp/project/aovivo.html          /usr/share/nginx/html/aovivo.html
+# Página de um evento (rota /evento?id=...)
+COPY --from=source /tmp/project/evento.html          /usr/share/nginx/html/evento.html
+# Página de uma série (rota /serie?s=...)
+COPY --from=source /tmp/project/serie.html           /usr/share/nginx/html/serie.html
 COPY --from=source /tmp/project/assets     /usr/share/nginx/html/assets
 COPY --from=source /tmp/project/css        /usr/share/nginx/html/css
 COPY --from=source /tmp/project/js         /usr/share/nginx/html/js
 COPY --from=source /tmp/project/fonts      /usr/share/nginx/html/fonts
 COPY --from=source /tmp/project/logos      /usr/share/nginx/html/logos
+COPY --from=source /tmp/project/robots.txt /usr/share/nginx/html/robots.txt
+# prerender/, og/ e sitemap.xml gerados no stage 2
+COPY --from=prerender /out/                /usr/share/nginx/html/
 
 EXPOSE 80
 
